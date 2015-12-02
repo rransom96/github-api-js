@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Github Remake</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css" />
+    <link rel="stylesheet" href="github.css" />
+</head>
+<body>
+  <div id="header">
+    <div class="container">
+      <input id="search-input" type="text" placeholder="Search Github" />
+      <ul id="nav">
+          <li>
+            <a href="#">Pull Requests</a>
+          </li>
+          <li>
+            <a href="#">Issues</a>
+          </li>
+          <li>
+            <a href="#">Gist</a>
+          </li>
+        </ul>
+        <ul id="profile">
+          <li>
+            <img alt="@rransom96" class="avatar" height="20"
+                src="https://avatars2.githubusercontent.com/u/14969530?v=3&amp;s=40"
+                width="20">
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="content">
+      <div class="container">
+        <div id="personal">
+          <img id="selfie" alt="" class="avatar" height="230" width="230">
+          <h1 id="name">
+            <span id="fullname"></span>
+            <span id='username'></span>
+          </h1>
+            <ul class="location">
+              <li>
+                <span id="city" class="glyphicon glyphicon-map-marker"></span>
+
+              </li>
+              <li>
+                <span class="glyphicon glyphicon-envelope"></span>
+                <a class="email" href="#"></a>
+              </li>
+              <li>
+                <span id="url" class="glyphicon glyphicon-link"></span>
+                <a href="#" class="url"></a>
+              </li>
+              <li>
+                <span class="glyphicon glyphicon-time"></span>
+                <span>Joined on</span>
+                <time id="time" datetime="2011-07-07T14:54:48Z"
+                  day="numeric" is="local-time" month="short" year="numeric"
+                  title="Jul 7, 2011, 7:54 AM PDT"></time>
+              </li>
+            </ul>
+          <div class="stats">
+              <a class="stat" href="#">
+                <p id="followers" class="number"></p>
+                <p class="number_text">Followers</p>
+              </a>
+              <a class="stat" href="#">
+                <p id="starred" class="number">69</p>
+                <p class="number_text">Starred</p>
+              </a>
+              <a class="stat" href="#">
+                <p id="following" class="number"></p>
+                <p class="number_text">Following</p>
+              </a>
+          </div>
+        </div>
+        <div id="repositories">
+          <ul class="repos">
+            <li class'repo_item'>
+              <h3 class= "repo_name">
+                <a id="title" href="#">
+                  universal-js-boilerplate</a>
+                  <p class="description">
+                    A scaffolding npm project for Universal JS/Express/Node with Babel
+                  </p>
+                  <p class="update">Updated 2 days ago</p>
+            </li>
+            <li class'repo_item'>
+              <h3 class= "repo_name">
+                <a href="#">
+                  universal-utils</a>
+                  <p class="description">
+                    Small functional problem-solving, event, state-management, and caching utilities
+                  </p>
+                  <p class="update">Updated 2 days ago</p>
+            </li>
+            <li class'repo_item'>
+              <h3 class= "repo_name">
+                <a href="#">
+                  react-resolver</a>
+                  <p class="forked">
+                    <span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span>
+                    forked from<a href="#"> ericclemmons/react-resolver</a></p>
+                  <p class="description">
+                    Isomorphic library to recursively lazy-load data for React components
+                  </p>
+                  <p class="update">Updated 2 days ago</p>
+            </li>
+            <li class'repo_item'>
+              <h3 class= "repo_name">
+                <a href="#">
+                  babel</a>
+                  <p class="forked">
+                    <span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span>
+                    forked from<a href="#"> babel/babel</a></p>
+                  <p class="description">
+                    Babel is a compiler for writing next generation JavaScript.
+                  </p>
+                  <p class="update">Updated 3 days ago</p>
+            </li>
+            <li class'repo_item'>
+              <h3 class= "repo_name">
+                <a href="#">
+                  fullstack-london-oct-2015</a>
+                  <p class="forked">
+                    <span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span>
+                    forked from<a href="#"> babel/babel</a></p>
+                  <p class="description">
+                    Physics Simulations from the Ground Up - my talk at FullStack London 2015 (
+                    <a href="#">https://skillsmatter.com/conferences/6612-fullstack</a>
+                    )</p>
+                  <p class="update">Updated 2 days ago</p>
+            </li>
+
+        </div>
+      </div>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+      <script>
+        var accesToken = '9c42c0c09d9f1b7ba629e94d7d63fc4df97987e5';
+        var userProfile = 'https://api.github.com/users/rransom96';
+        var userRepos = 'https://api.github.com/users/rransom96/repos';
+
+        $.ajax({
+          method: 'GET',
+          url: userProfile,
+          dateType: 'json',
+          beforeSend: function (xhr) {
+            xhr.setRequestHeader ("Authorization", "Token " + accesToken);
+          }
+        }).done(function(profileInfo){
+                  console.log("pulling info");
+                  var avatar = profileInfo.avatar_url;
+                  $('#selfie').attr('src', avatar);
+                  var name = profileInfo.name;
+                  $('#fullname').html(name);
+                  var userName = profileInfo.login;
+                  $('#username').html(userName);
+                  var location = profileInfo.location;
+                  if(location == null){
+                    $('#city').css('display', 'none');
+                  }else{
+                    $('#city').html(location);
+                  }
+                  var email = profileInfo.email;
+                  $('.email').html(email);
+                  var site = profileInfo.html_url;
+                  if(site == null){
+                    $('#url').css('display', 'none');
+                  }else{
+                    $('.url').html(site).attr('href', site);
+                  }
+                  var joined = profileInfo.created_at;
+                  var joinDay = new Date(joined);
+                  $('#time').html(joinDay);
+                  var followers = profileInfo.followers;
+                  $('#followers').html(followers);
+//                  var following = profileInfo.following;
+//                  $('#following').html(following);
+                  var following = profileInfo.following;
+                  $('#following').html(following);
+                }
+        );
+
+        $.ajax({
+          method: 'GET',
+          url: userRepos,
+          dateType: 'json'
+        }).done(function(reposList){
+                  var repos = reposList;
+                  repos.forEach(function(repoInfo) {
+                    var name = repos.name;
+                    var description = repos.description;
+                    $('#title').html(name).attr('href', name);
+                    $('#description').html(description);
+
+                  });
+                }
+        );
+      </script>
+    </div>
+</body>
+</html>
